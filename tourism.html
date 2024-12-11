@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tours</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header>
+    <ul>
+        <li><span>My Tours</span></li>
+        <li><a href="tourism.html" class="active">My Collection</a></li>
+        <li><a href="create.html">Add Tour</a></li>
+    </ul>
+    <div class="header-search">
+        <input type="text" placeholder="Type something..." id="searchQuery">
+        <div class="header-buttons">
+            <button id="searchBtn">Search</button>
+            <button id="clearBtn" class="clear-btn">Clear</button>
+        </div>
+    </div>
+</header>
+
+<section class="tour-list tours-page">
+    <div class="controls">
+        <h2>Manage your tours</h2>
+        <div class="switch_div">
+            <label>
+                Sort by the most expensive tours
+            </label>
+            <label class="switch">
+                <input type="checkbox" id="switch" onchange="sortToursByPrice()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="count-section">
+            <span id="count-span">Count total price</span>
+            <button onclick="totalToursPrice()">Count</button>
+        </div>
+        <div class="price-info">
+            <div>Total price:</div>
+            <div><span id="total-expenses">0</span> EUR</div>
+        </div>
+    </div>
+    <div id="tour-list" class="tour-container"></div>
+</section>
+
+</body>
+</html>

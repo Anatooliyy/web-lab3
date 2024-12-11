@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Tour</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><span>My Tours</span></li>
+      <li><a href="tourism.html">My Collection</a></li>
+      <li><a href="create.html" class="active">Add Tour</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="form-section create-form">
+  <h2 class="form-title">Add a New Tour</h2>
+  <form id="tour-form" class="tour-form" novalidate>
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <input type="text" id="country" required>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration (in days):</label>
+      <input type="number" id="duration" required min="1">
+    </div>
+    <div class="form-group">
+      <label for="price">Price (EUR):</label>
+      <input type="number" id="price" required min="1">
+    </div>
+    <button type="submit" class="submit-btn">Submit</button>
+  </form>
+</section>
+
+</body>
+</html>

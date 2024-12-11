@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Tour</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+<header>
+  <ul>
+    <li><span>My Tours</span></li>
+    <li><a href="tourism.html">My Collection</a></li>
+    <li><a href="create.html">Add Tour</a></li>
+  </ul>
+</header>
+
+<section class="form-section create-form">
+  <h2 class="form-title">Edit Tour</h2>
+  <form id="edit-tour-form" class="tour-form" novalidate>
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <input type="text" id="country" required>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration (in days):</label>
+      <input type="number" id="duration" required min="1">
+    </div>
+    <div class="form-group">
+      <label for="price">Price (EUR):</label>
+      <input type="number" id="price" required min="1">
+    </div>
+    <button type="submit" class="submit-btn">Save Changes</button>
+  </form>
+</section>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const tourId = urlParams.get('id');
+  let tourss = [];
+
+  fetch(`http://127.0.0.1:8080/api/tours`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to fetch tours data");
+        }
+        return response.json();
+    })
+    .then(data => {
+        tourss = data;
+
+        if (tourId !== null && tourss[tourId]) {
+            const tour = tourss[tourId];
+            document.getElementById('country').value = tour.country;
+            document.getElementById('duration').value = tour.duration;
+            document.getElementById('price').value = tour.price;
+        }
+    })
+    .catch(error => console.error("Error fetching tours:", error));
+
+  document.getElementById('edit-tour-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const country = document.getElementById('country').value.trim();
+    const duration = parseInt(document.getElementById('duration').value, 10);
+    const price = parseFloat(document.getElementById('price').value);
+
+    let isValid = validateTourForm(country, duration, price);
+
+    if (isValid) {
+        const updatedTour = {
+            country: country,
+            duration: duration,
+            price: price
+        };
+
+        fetch(`http://127.0.0.1:8080/api/tours/${country}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedTour)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to update tour");
+            }
+            window.location.href = 'tourism.html';
+        })
+        .catch(error => console.error("Error:", error));
+    }
+  });
+
+  function validateTourForm(country, duration, price) {
+    let isValid = true;
+    document.querySelectorAll('.error-msg').forEach(el => el.remove());
+
+    if (duration <= 0) {
+        const errorMsg = document.createElement('span');
+        errorMsg.classList.add('error-msg');
+        errorMsg.style.color = 'red';
+        errorMsg.innerText = 'Duration must be greater than 0 days.';
+        document.getElementById('duration').parentElement.appendChild(errorMsg);
+        isValid = false;
+    }
+
+    if (price <= 0) {
+        const errorMsg = document.createElement('span');
+        errorMsg.classList.add('error-msg');
+        errorMsg.style.color = 'red';
+        errorMsg.innerText = 'Price must be greater than 0 EUR.';
+        document.getElementById('price').parentElement.appendChild(errorMsg);
+        isValid = false;
+    }
+
+    return isValid;
+  }
+
+</script>
+
+</body>
+</html>

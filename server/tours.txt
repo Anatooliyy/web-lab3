@@ -1,0 +1,1 @@
+[{"country": "italia", "duration": 20, "price": 290}, {"country": "rome", "duration": 200, "price": 40}, {"country": "kyiv", "duration": 30, "price": 100}]
